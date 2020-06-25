@@ -66,6 +66,7 @@ run as a test.
 > echo 'This script is running on:'
 > hostname
 > sleep 120
+> echo 'This script has finished successfully'
 > ```
 > {: .bash}
 {: .challenge}
