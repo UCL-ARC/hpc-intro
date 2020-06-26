@@ -131,7 +131,7 @@ Let's illustrate this by example. By default, a job's name is the name of the sc
 Submit the following job (`{{ site.sched_submit }} {{ site.sched_submit_options }} example-job.sh`):
 
 ```
-#!/bin/bash
+#!/bin/bash -l
 {{ site.sched_comment }} {{ site.sched_flag_name }} new_name
 
 echo 'This script is running on:'
