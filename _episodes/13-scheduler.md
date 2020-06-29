@@ -137,6 +137,7 @@ Submit the following job (`{{ site.sched_submit }} {{ site.sched_submit_options 
 echo 'This script is running on:'
 hostname
 sleep 120
+> echo 'This script has finished successfully'
 ```
 
 ```
