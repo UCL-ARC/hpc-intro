@@ -5,7 +5,6 @@ an engineering simulation product.)
 ```
 {{ site.host_prompt }} module load ansys
 ```
-
 {: .bash}
 
 ```
@@ -19,16 +18,18 @@ Some HPC systems will automatically load dependencies like this, but at the time
 Myriad does not.
 
 Let's load the `giflib` module:
+
 ```
 {{ site.host_prompt }} module load giflib
 ```
-
 {: .bash}
+
 ```
 giflib/5.1.1(18):ERROR:151: Module 'giflib/5.1.1' depends on one of the module(s) 'gcc-libs/4.9.2'
 giflib/5.1.1(18):ERROR:102: Tcl command execution failed: prereq gcc-libs
 ```
 {: .output}
+
 Here, we see that the `giflib` module itself also has a dependency, `gcc-libs`. So we have to load that
 first, then load `giflib`, and then finally load `ansys`.
 
@@ -37,8 +38,8 @@ first, then load `giflib`, and then finally load `ansys`.
 {{ site.host_prompt }} module load giflib/5.1.1
 {{ site.host_prompt }} module load ansys
 ```
-
 {: .bash}
+
 ```
 ~/Scratch/.config is configured
 ...
