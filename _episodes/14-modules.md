@@ -148,7 +148,7 @@ it added a directory to the beginning of our `$PATH`. Let's examine what's there
 ```
 {: .output}
 
-Taking this to its conclusion, `module load` will add software to your `$PATH`. It "loads"
+Taking this to it's conclusion, `module load` will add software to your `$PATH`. It "loads"
 software. A special note on this - depending on which version of the `module` program that is
 installed at your site, `module load` will also load required software dependencies.
 
@@ -281,7 +281,6 @@ Command: seq       common transformation of FASTA/Q
          cutN      cut sequence at long N
          gap       get the gap locations
          listhet   extract the position of each het
-         hpc       homopolyer-compressed sequence
 ```
 {: .output}
 
