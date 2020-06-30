@@ -1,73 +1,153 @@
-Let's take a closer look at the `gcc` module. GCC is an extremely widely used C/C++/Fortran
-compiler. Tons of software is dependent on the GCC version, and might not compile or run if the
-wrong version is loaded. In this case, there are two different versions: `gcc/4.8.5` and
-`gcc/5.4.0`. How do we load each copy and which copy is the default?
+To be more specific, you can specify the particular software you want.
+ e.g.
+ ```
+ {{ site.host_prompt }} module avail stata
+ ```
 
-In this case, `gcc/5.4.0` has a `(D)` next to it. This indicates that it is the default - if we type
-`module load gcc`, this is the copy that will be loaded.
+ {: .bash}
+ ```
+ ------------------------------------- /shared/ucl/apps/modulefiles/applications --------------------------------------
+ stata/14 stata/15
+ ```
+ {: .output}
 
+Let's take a closer look at the `matlab` module.
+Matlab is a widely-used piece of software which uses matrix multiplication.
+As we shall see, there are different versions available, and we want to make sure the one we use
+is the correct one for our purposes.
+
+Let's see which versions we have access to.
 ```
-{{ site.host_prompt }} module load gcc
-{{ site.host_prompt }} gcc --version
-```
-{: .bash}
-```
-Lmod is automatically replacing "intel/2016.4" with "gcc/5.4.0".
-
-
-Due to MODULEPATH changes, the following have been reloaded:
-  1) openmpi/2.1.1
-
-gcc (GCC) 5.4.0
-Copyright (C) 2015 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-```
-{: .output}
-
-Note that three things happened: the default copy of GCC was loaded (version 5.4.0), the Intel
-compilers (which conflict with GCC) were unloaded, and software that is dependent on compiler
-(OpenMPI) was reloaded. The `module` system turned what might be a super-complex operation into a
-single command.
-
-So how do we load the non-default copy of a software package? In this case, the only change we need
-to make is be more specific about the module we are loading. There are two GCC modules: `gcc/5.4.0`
-and `gcc/4.8.5`. To load a non-default module, the only change we need to make to our `module load`
-command is to leave in the version number after the `/`.
-
-```
-{{ site.host_prompt }} module load gcc/4.8.5
-{{ site.host_prompt }} gcc --version
+{{ site.host_prompt }} module avail matlab
 ```
 {: .bash}
 ```
-Inactive Modules:
-  1) openmpi
-
-The following have been reloaded with a version change:
-  1) gcc/5.4.0 => gcc/4.8.5
-
-gcc (GCC) 4.8.5
-Copyright (C) 2015 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+------------------------------------- /shared/ucl/apps/modulefiles/applications --------------------------------------
+matlab/full/r2015a/8.5 matlab/full/r2016b/9.1 matlab/full/r2018a/9.4 matlab/full/r2019b/9.7
+matlab/full/r2015b/8.6 matlab/full/r2017a/9.2 matlab/full/r2018b/9.5
 ```
 {: .output}
 
-We now have successfully switched from GCC 5.4.0 to GCC 4.8.5. It is also important to note that
-there was no compatible OpenMPI module available for GCC 4.8.5. Because of this, the `module`
-program has "inactivated" the module. All this means for us is that if we re-load GCC 5.4.0,
-`module` will remember OpenMPI used to be loaded and load that module as well.
+In this case, there are seven different versions.
+How do we load each copy, and which copy is the default?
+
+Sometimes, on some systems, a module might have a `(default)` next to it.
+This indicates that it is the default (i.e. which would be loaded if we type `module load matlab`).
+In this case, we don't see this, so we will have to load matlab and see what we get.
 
 ```
-{{ site.host_prompt }} module load gcc/5.4.0
+{{ site.host_prompt }} module load matlab
 ```
 {: .bash}
 ```
-Activating Modules:
-  1) openmpi/2.1.1
-
-The following have been reloaded with a version change:
-  1) gcc/4.8.5 => gcc/5.4.0
+matlab/full/r2019b/9.7(99):ERROR:151: Module 'matlab/full/r2019b/9.7' depends on one of the module(s) 'gcc-libs/4.9.2'
+matlab/full/r2019b/9.7(99):ERROR:102: Tcl command execution failed: prereq gcc-libs
 ```
 {: .output}
+
+Here, we see that the default version of Matlab on the system is r2019b/9.7, which 
+in this case is the most recent version. However, you should not assume that the
+default version is necessarily the latest.
+
+As we saw in the earlier example, there are one or more dependencies.
+
+Suppose we decide to load an earlier version of Matlab, e.g. r2017a/9.2.
+
+``
+{{ site.host_prompt }} module purge
+{{ site.host_prompt }} module list
+```
+{: .bash}
+```
+No Modulefiles Currently Loaded.
+```
+{: .output}
+```
+{{ site.host_prompt }} module load matlab/full/r2017a/9.2
+```
+{: .bash}
+```
+matlab/full/r2017a/9.2(96):ERROR:151: Module 'matlab/full/r2017a/9.2' depends on one of the module(s) 'gcc-libs/4.9.2'
+matlab/full/r2017a/9.2(96):ERROR:102: Tcl command execution failed: prereq gcc-libs
+```
+{: .output}
+```
+{{ site.host_prompt }} module load gcc-libs/4.9.2
+{{ site.host_prompt }} module load matlab/full/r2017a/9.2
+```
+{: .bash}
+```
+matlab/full/r2017a/9.2(97):ERROR:151: Module 'matlab/full/r2017a/9.2' depends on one of the module(s) 'xorg-utils/X11R7.7'
+matlab/full/r2017a/9.2(97):ERROR:102: Tcl command execution failed: prereq xorg-utils/X11R7.7
+```
+{: .output}
+```
+{{ site.host_prompt }} module load xorg-utils/X11R7.7
+{{ site.host_prompt }} module load matlab/full/r2017a/9.2
+```
+{: .bash}
+```
+~/.matlab is a symbolic link pointing to /home/cceagil/Scratch/.matlab
+
+Matlab setup complete type matlab to start Matlab.
+```
+{: .output}
+
+```
+{{ site.host_prompt }} matlab -nodisplay -nosplash -nodesktop
+```
+
+{: .bash}
+```
+                                               < M A T L A B (R) >
+                                     Copyright 1984-2017 The MathWorks, Inc.
+                                      R2017a (9.2.0.556344) 64-bit (glnxa64)
+                                                  March 27, 2017
+
+ 
+To get started, type one of these: helpwin, helpdesk, or demo.
+For product information, visit www.mathworks.com.
+ 
+>> quit
+```
+{: .output}
+
+Note that you cannot load two different versions of the same software at once.
+Currently, we have loaded `matlab/full/r2017a/9.2`. Let's try also loading
+`matlab/full/r2015b/8.6`:
+
+```
+{{ site.host_prompt }} module load matlab/full/r2015b/8.6
+```
+{: .bash}
+```
+matlab/full/r2015b/8.6(108):ERROR:150: Module 'matlab/full/r2015b/8.6' conflicts with the currently loaded module(s) 'matlab/full/r2017a/9.2'
+matlab/full/r2015b/8.6(108):ERROR:102: Tcl command execution failed: conflict matlab
+```
+{: .output}
+
+As we can see, we get an error message about conflicts.
+If we do indeed wish to load version r2015b/8.6, we can say
+```
+{{ site.host_prompt }} module unload matlab/full/r2017a/9.2
+{{ site.host_prompt }} module load matlab/full/r2015b/8.6
+```
+or, in one step:
+```
+{{ site.host_prompt }} module swap matlab matlab/full/r2015b/8.6
+```
+```
+{{ site.host_prompt }} module list
+```
+{: .bash}
+```
+Currently Loaded Modulefiles:
+  1) gcc-libs/4.9.2                 9) gerun                         17) userscripts/1.4.0
+  ...                              ...                               ...
+  6) apr-util/1.5.4                14) emacs/24.5                    22) xorg-utils/X11R7.7
+  7) subversion/1.8.13             15) tmux/2.2                      23) matlab/full/r2015b/8.6
+  8) screen/4.2.1                  16) mrxvt/0.5.4
+```
+{: .output}
+
+
