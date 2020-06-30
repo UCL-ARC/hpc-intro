@@ -12,6 +12,7 @@ ansys/2019.r3(73):ERROR:151: Module 'ansys/2019.r3' depends on one of the module
 ansys/2019.r3(73):ERROR:102: Tcl command execution failed: prereq   giflib/5.1.1
 ```
 {: .output}
+
 This shows that the default `ansys` module will not run because it first needs `giflib/5.1.1` to be loaded.
 Some HPC systems will automatically load dependencies like this, but at the time of writing (June 2020) UCL's
 Myriad does not.
