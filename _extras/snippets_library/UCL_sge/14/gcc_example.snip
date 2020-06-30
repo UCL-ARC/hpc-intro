@@ -1,5 +1,6 @@
 To be more specific, you can specify the particular software you want.
  e.g.
+
  ```
  {{ site.host_prompt }} module avail stata
  ```
@@ -17,9 +18,11 @@ As we shall see, there are different versions available, and we want to make sur
 is the correct one for our purposes.
 
 Let's see which versions we have access to.
+
 ```
 {{ site.host_prompt }} module avail matlab
 ```
+
 {: .bash}
 ```
 ------------------------------------- /shared/ucl/apps/modulefiles/applications --------------------------------------
@@ -38,6 +41,7 @@ In this case, we don't see this, so we will have to load matlab and see what we 
 ```
 {{ site.host_prompt }} module load matlab
 ```
+
 {: .bash}
 ```
 matlab/full/r2019b/9.7(99):ERROR:151: Module 'matlab/full/r2019b/9.7' depends on one of the module(s) 'gcc-libs/4.9.2'
@@ -57,34 +61,41 @@ Suppose we decide to load an earlier version of Matlab, e.g. r2017a/9.2.
 {{ site.host_prompt }} module purge
 {{ site.host_prompt }} module list
 ```
+
 {: .bash}
 ```
 No Modulefiles Currently Loaded.
 ```
 {: .output}
+
 ```
 {{ site.host_prompt }} module load matlab/full/r2017a/9.2
 ```
+
 {: .bash}
 ```
 matlab/full/r2017a/9.2(96):ERROR:151: Module 'matlab/full/r2017a/9.2' depends on one of the module(s) 'gcc-libs/4.9.2'
 matlab/full/r2017a/9.2(96):ERROR:102: Tcl command execution failed: prereq gcc-libs
 ```
 {: .output}
+
 ```
 {{ site.host_prompt }} module load gcc-libs/4.9.2
 {{ site.host_prompt }} module load matlab/full/r2017a/9.2
 ```
+
 {: .bash}
 ```
 matlab/full/r2017a/9.2(97):ERROR:151: Module 'matlab/full/r2017a/9.2' depends on one of the module(s) 'xorg-utils/X11R7.7'
 matlab/full/r2017a/9.2(97):ERROR:102: Tcl command execution failed: prereq xorg-utils/X11R7.7
 ```
 {: .output}
+
 ```
 {{ site.host_prompt }} module load xorg-utils/X11R7.7
 {{ site.host_prompt }} module load matlab/full/r2017a/9.2
 ```
+
 {: .bash}
 ```
 ~/.matlab is a symbolic link pointing to /home/cceagil/Scratch/.matlab
@@ -119,6 +130,7 @@ Currently, we have loaded `matlab/full/r2017a/9.2`. Let's try also loading
 ```
 {{ site.host_prompt }} module load matlab/full/r2015b/8.6
 ```
+
 {: .bash}
 ```
 matlab/full/r2015b/8.6(108):ERROR:150: Module 'matlab/full/r2015b/8.6' conflicts with the currently loaded module(s) 'matlab/full/r2017a/9.2'
@@ -128,17 +140,24 @@ matlab/full/r2015b/8.6(108):ERROR:102: Tcl command execution failed: conflict ma
 
 As we can see, we get an error message about conflicts.
 If we do indeed wish to load version r2015b/8.6, we can say
+
 ```
 {{ site.host_prompt }} module unload matlab/full/r2017a/9.2
 {{ site.host_prompt }} module load matlab/full/r2015b/8.6
 ```
+
 or, in one step:
+
 ```
 {{ site.host_prompt }} module swap matlab matlab/full/r2015b/8.6
 ```
+
+Check this module has been loaded:
+
 ```
 {{ site.host_prompt }} module list
 ```
+
 {: .bash}
 ```
 Currently Loaded Modulefiles:
