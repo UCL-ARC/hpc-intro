@@ -22,7 +22,8 @@ icc -o calculate_pi calculate_pi.o pi_mytime.o
 If you run `ls` you should notice the new executable has been built.
 You tell the program how many iterations you wish it to perform.
 The more iterations, the more accurate the value of pi produced.
-But the longer it will take.
+But the longer it will take. We must *not* run this program with
+a high number of iterations on this login node.
 
 Check the program works when used with a SMALL number of iterations:
 
@@ -189,33 +190,50 @@ Nodes for job 4053574:
 
 Once the job has finished, if you now `cd` up one level, you should see files
 with names like `Serial_Job.e4053574` and `Serial_Job.o4053574`. These contain
-information about your job (e.g. the timing information).
+information about your job (e.g. the timing information) whose number was the one
+in the file title.
 
-If you go up a couple of levels, to your `Scratch` directory, you should find
+If you go up another couple of levels, to your `Scratch` directory, you should find
+a compressed archive file with a name like `files_from_job_4053574.tar.gz`. The number in the file
+title should be the same as the `Serial.Job` files we looked at a moment ago.
 
+Extract the contents of the archive:
 
+```
+{{ site.host_prompt }} tar xvfz files_from_job_4053574.tar.gz
+```
+{: .bash}
 
-[cceagil@login13 calculate_pi_dir]$ pwd
-/home/cceagil/Scratch/workspace/calculate_pi_dir
+```
+tmpdir/job/4053574.undefined/
+tmpdir/job/4053574.undefined/results.txt
+tmpdir/job/4053574.undefined/.smpd
+```
+{: .output}
 
-[cceagil@login13 workspace]$ 
+```
+{{ site.host_prompt }} ls
+```
+{: .bash}
 
-[cceagil@login13 workspace]$ cd ..
-[cceagil@login13 Scratch]$ ls
-files_from_job_4042924.tar.gz  tmpdir  workspace
-[cceagil@login13 Scratch]$ ls tmpdir/job/
-4030977.undefined
-[cceagil@login13 Scratch]$ gunzip files_from_job_4042924.tar.gz 
-[cceagil@login13 Scratch]$ ls
-files_from_job_4042924.tar  tmpdir  workspace
-[cceagil@login13 Scratch]$ tar -xvf files_from_job_4042924.tar 
-tmpdir/job/4042924.undefined/
-tmpdir/job/4042924.undefined/results.txt
-tmpdir/job/4042924.undefined/.smpd
-[cceagil@login13 Scratch]$ cat tmpdir/job/4042924.undefined/results.txt
+```
+files_from_job_4053574.tar.gz  tmpdir  workspace
+```
+{: .output}
+
+Explore the `tmpdir` directory. You should find a results file a couple of levels in:
+
+```
+{{ site.host_prompt }} cat tmpdir/job/4053574.undefined/results.txt
+```
+{: .bash}
+
+```
 Calculating PI using calculate_pi using 1000000000 steps...
 The value of PI is 3.14159
-The time to calculate PI was 1.2507 seconds
-[cceagil@login13 Scratch]$ 
+The time to calculate PI was 1.36849 seconds
+```
+{: .output}
+
 
 
