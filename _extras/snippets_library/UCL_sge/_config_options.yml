@@ -1,4 +1,4 @@
-# EPCC, The University of Edinburgh: Cirrus + PBS Pro
+# UCL, University College London: Myriad + SGE
 host_name: "Myriad"
 host_login: "myriad.rc.ucl.ac.uk"
 host_location: "University College London"
