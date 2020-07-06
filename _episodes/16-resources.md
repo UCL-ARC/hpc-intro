@@ -13,7 +13,7 @@ keypoints:
 ---
 
 We now know virtually everything we need to know about getting stuff on a cluster. We can log on,
-submit different types of jobs, use preinstalled software, and install and use software of our own.
+submit different types of jobs, use pre-installed software, and install and use software of our own.
 What we need to do now is use the systems effectively.
 
 ## Estimating required resources using the scheduler
@@ -29,7 +29,7 @@ then ask the scheduler how many resources it used.
 
 A good rule of thumb is to ask the scheduler for more time and memory than you expect your job to
 need. This ensures that minor fluctuations in run time or memory use will not result in your job
-being canceled by the scheduler. Recommendations for how much extra to ask for vary but 10% is 
+being cancelled by the scheduler. Recommendations for how much extra to ask for vary but 10% is 
 probably the minimum, with 20-30% being more typical. Keep in mind that if you ask for too much,
 your job may not run even though enough resources are available, because the scheduler will be
 waiting to match what you asked for.
@@ -50,30 +50,15 @@ get statistics about our job.
 {: .output}
 
 This shows all the jobs we ran recently (note that there are multiple entries per job). To get
-detailed info about a job, we change command slightly.
+info about a specific job, we change command slightly.
 
 ```
-{{ site.host_prompt }} {{ site.sched_hist }} {{ site.sched_flag_histdetail }} 1965
-```
-{: .bash}
-
-It will show a lot of info, in fact, every single piece of info collected on your job by the
-scheduler. It may be useful to redirect this information to `less` to make it easier to view (use
-the left and right arrow keys to scroll through fields).
-
-```
-{{ site.host_prompt }} {{ site.sched_hist }} {{ site.sched_flag_histdetail }} 1965| less
+{{ site.host_prompt }} {{ site.sched_hist }} {{ site.sched_flag_histdetail }} 4053574
 ```
 {: .bash}
 
-Some interesting fields include the following:
+This will show basic job info.
 
-* **Hostname** - Where did your job run?
-* **MaxRSS** - What was the maximum amount of memory used?
-* **Elapsed** - How long did the job take?
-* **State** - What is the job currently doing/what happened to it?
-* **MaxDiskRead** - Amount of data read from disk.
-* **MaxDiskWrite** - Amount of data written to disk.
 
 ## Measuring the statistics of currently running tasks
 
