@@ -1,0 +1,174 @@
+In this exercise, we learn how to benchmark an application, i.e. see what memory it used and how long it took to run.
+
+Log into Myriad and then issue the following commands. This will build a program
+(`calculate_pi`) which, when run, gives an estimate of the value of pi.
+
+```
+{{ site.workshop_host_prompt }} mkdir ~/Scratch/workspace
+{{ site.workshop_host_prompt }} cd ~/Scratch/workspace
+{{ site.workshop_host_prompt }} cp -r /shared/ucl/apps/examples/calculate_pi_dir .
+{{ site.workshop_host_prompt }} cd calculate_pi_dir
+{{ site.workshop_host_prompt }} make
+```
+{: .bash}
+
+```
+icc -c calculate_pi.c -o calculate_pi.o
+icc -c pi_mytime.c -o pi_mytime.o
+icc -o calculate_pi calculate_pi.o pi_mytime.o
+```
+{: .output}
+
+If you run `ls` you should notice the new executable has been built.
+You tell the program how many iterations you wish it to perform.
+The more iterations, the more accurate the value of pi produced.
+But the longer it will take.
+
+Check the program works when used with a SMALL number of iterations:
+
+```
+{{ site.workshop_host_prompt }} ./calculate_pi 10
+```
+{: .bash}
+
+```
+Calculating PI using calculate_pi using 10 steps...
+The value of PI is 3.33118
+The time to calculate PI was 9.53674e-07 seconds
+```
+{: .output}
+
+We can gather some information about the resources we use. To demonstrate, we
+re-run the program (with a SMALL number of iterations) and time it:
+
+```
+{{ site.workshop_host_prompt }} /usr/bin/time --verbose ./calculate_pi 100
+```
+{: .bash}
+
+```
+Calculating PI using calculate_pi using 100 steps...
+The value of PI is 3.1615
+The time to calculate PI was 0 seconds
+	Command being timed: "./calculate_pi 100"
+	User time (seconds): 0.00
+	System time (seconds): 0.00
+	Percent of CPU this job got: 9%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.02
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 664
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 214
+	Voluntary context switches: 3
+	Involuntary context switches: 1
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+```
+{: .output}
+
+In order to get a more accurate value of pi, we need to run the program
+with a large number of iterations. (Not specifying a number means it will use
+1000000000). We do not do this on the login node, but must submit a job script.
+
+now we want to put it in a job script
+make sure the job script has their id in it
+
+
+[cceagil@login12 calculate_pi_dir]$ ls
+Makefile  calc_pi.sh  calculate_pi  calculate_pi.c  calculate_pi.o  pi_mytime.c  pi_mytime.h  pi_mytime.o
+[cceagil@login12 calculate_pi_dir]$ /usr/bin/time --verbose ./calculate_pi 100
+
+[cceagil@login12 calculate_pi_dir]$ 
+
+
+you can also look at nodesforjob whilst it's running
+
+
+jobhist gives more info
+e.g.
+[cceagil@login12 calculate_pi_dir]$ jobhist
+        FSTIME        |       FETIME        |   HOSTNAME    |  OWNER  | JOB NUMBER | TASK NUMBER | EXIT STATUS |  JOB NAME   
+----------------------+---------------------+---------------+---------+------------+-------------+-------------+-------------
+  1970-01-01 01:00:00 | 1970-01-01 01:00:00 | node-i00a-002 | cceagil |    4029963 |           0 |           0 | Serial_Job  
+  2020-07-01 16:12:31 | 2020-07-01 16:12:31 | node-b00a-007 | cceagil |    4030977 |           0 |           0 | Serial_Job  
+  2020-07-01 16:38:40 | 2020-07-01 16:38:42 | node-i00a-002 | cceagil |    4031101 |           0 |           0 | Serial_Job  
+[cceagil@login12 calculate_pi_dir]$ 
+
+[cceagil@login13 calculate_pi_dir]$ qstat
+job-ID  prior   name       user         state submit/start at     queue                          slots ja-task-ID 
+-----------------------------------------------------------------------------------------------------------------
+4042887 0.00000 Serial_Job cceagil      qw    07/02/2020 09:25:57                                    1        
+[cceagil@login13 calculate_pi_dir]$ 
+
+[cceagil@login13 calculate_pi_dir]$ qstat
+job-ID  prior   name       user         state submit/start at     queue                          slots ja-task-ID 
+-----------------------------------------------------------------------------------------------------------------
+4042887 2.79032 Serial_Job cceagil      r     07/02/2020 09:27:21 Arya@node-j00a-001                 1        
+
+
+
+[cceagil@login13 calculate_pi_dir]$ pwd
+/home/cceagil/Scratch/workspace/calculate_pi_dir
+[cceagil@login13 calculate_pi_dir]$ cd ..
+[cceagil@login13 workspace]$ ls
+Serial_Job.e4042924  Serial_Job.o4042924  calculate_pi_dir
+[cceagil@login13 workspace]$ cat Serial_Job.e4042924 
+	Command being timed: "/home/cceagil/Scratch/workspace/calculate_pi_dir/calculate_pi"
+	User time (seconds): 1.24
+	System time (seconds): 0.00
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.25
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 652
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 212
+	Voluntary context switches: 4
+	Involuntary context switches: 2
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+tar: Removing leading `/' from member names
+[cceagil@login13 workspace]$ cat Serial_Job.o4042924 
+/tmpdir/job/4042924.undefined/
+/tmpdir/job/4042924.undefined/results.txt
+/tmpdir/job/4042924.undefined/.smpd
+[cceagil@login13 workspace]$ 
+
+[cceagil@login13 workspace]$ cd ..
+[cceagil@login13 Scratch]$ ls
+files_from_job_4042924.tar.gz  tmpdir  workspace
+[cceagil@login13 Scratch]$ ls tmpdir/job/
+4030977.undefined
+[cceagil@login13 Scratch]$ gunzip files_from_job_4042924.tar.gz 
+[cceagil@login13 Scratch]$ ls
+files_from_job_4042924.tar  tmpdir  workspace
+[cceagil@login13 Scratch]$ tar -xvf files_from_job_4042924.tar 
+tmpdir/job/4042924.undefined/
+tmpdir/job/4042924.undefined/results.txt
+tmpdir/job/4042924.undefined/.smpd
+[cceagil@login13 Scratch]$ cat tmpdir/job/4042924.undefined/results.txt
+Calculating PI using calculate_pi using 1000000000 steps...
+The value of PI is 3.14159
+The time to calculate PI was 1.2507 seconds
+[cceagil@login13 Scratch]$ 
+
+
