@@ -8,5 +8,22 @@
 >
 > > ## Solution
 > >
+> > ```
+> > {{ site.remote.prompt }} nano example-job.sh
+> > {{ site.remote.prompt }} cat example-job.sh
+> > ```
+> > {: .language-bash}
+> >
+> > ```
+> > {{ site.remote.bash_shebang }}
+> > #SGE -l 00:00:30
+> >
+> > echo -n "This script is running on "
+> > hostname
+> >
+> > echo "This job was launched in the following directory:"
+> > echo ${SGE_O_WORKDIR}
+> > ```
+> > {: .output}
 > {: .solution}
 {: .challenge}
