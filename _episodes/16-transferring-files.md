@@ -340,8 +340,8 @@ If your home directory _is_ the destination, you can leave the destination
 field blank, or type `~` -- the shorthand for your home directory -- for
 completeness.
 
-With `scp`, a trailing slash on the target directory is optional, and has
-no effect. It is important for other commands, like `rsync`.
+A trailing slash on the source directory is optional, and has no effect for
+`scp -r`, but is important in other commands, like `rsync`.
 
 > ## A Note on `rsync`
 >
@@ -374,11 +374,12 @@ no effect. It is important for other commands, like `rsync`.
 > ```
 > {: .language-bash}
 >
-> As written, this will place the local directory and its contents under your
-> home directory on the remote system. If the trailing slash is omitted on
-> the destination, a new directory corresponding to the transferred directory
-> will not be created, and the contents of the source
-> directory will be copied directly into the destination directory.
+> As written, this will place the local directory and its contents under the
+> specified directory on the remote system. If a trailing slash is added to
+> the source, a new directory corresponding to the transferred directory
+> ('dir' in the example) will not be created, and the contents of the source
+> directory will be copied directly into the destination directory. Omitting
+> or adding a trailing slash on the destination makes no difference.
 >
 > To download a file, we simply change the source and destination:
 >
@@ -441,12 +442,17 @@ of the screen:
 
 * Host: `sftp://{{ site.remote.login }}`
 * User: Your cluster username
-* Password: Your cluster password
+* Password: Your cluster password (leave blank to use your SSH keys)
 * Port: (leave blank to use the default port)
+
+Leave the password blank there and in any popups to have FileZilla use your
+existing SSH keys that are loaded in your SSH agent.
 
 Hit "Quickconnect" to connect. You should see your remote files appear on the
 right hand side of the screen. You can drag-and-drop files between the left
 (local) and right (remote) sides of the screen to transfer files.
+
+{% include {{ site.snippets }}/filezilla-remote-instructions.snip %}
 
 Finally, if you need to move large files (typically larger than a gigabyte)
 from one remote computer to another remote computer, SSH in to the computer
