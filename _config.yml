@@ -12,69 +12,59 @@
 # below with those in `_config_options.yml` from the
 # library. E.g, to customise for Cirrus at EPCC, running
 # Slurm, we could replace the options below with those from
-# 
+#
 # _includes/snippets_library/EPCC_Cirrus_slurm/_config_options.yml
-# 
+#
 # If your cluster is not represented in the library, please
 # copy an existing folder, rename it, and customize for your
 # installation. Remember to keep the leading slash on the
 # `snippets` variable below!
 
-# ---------------------------------------------------------------
-# HPC Carpentries in the Cloud: Slurm + Software Stack from EESSI
-# ---------------------------------------------------------------
-#
-# The HPC Carpentry Cluster in the Cloud is provided as a public
-# service by volunteers. It is provisioned with Magic Castle
-# <https://github.com/ComputeCanada/magic_castle> using the EESSI
-# <https://eessi.github.io/docs/> software stack. If you need an
-# account, please visit <cluster.hpc-carpentry.org>.
-#
-# Compute responsibly.
-
-snippets: "/snippets_library/HPCC_MagicCastle_slurm"
+# UCL, University College London: Myriad + SGE
+snippets: "/snippets_library/UCL_Myriad_sge"
 
 local:
   prompt: "[you@laptop:~]$"
   bash_shebang: "#!/usr/bin/env bash"
 
 remote:
-  name: "HPC Carpentry's Cloud Cluster"
-  login: "cluster.hpc-carpentry.org"
-  portal: "https://mokey.cluster.hpc-carpentry.org"
-  host: "login1"
-  node: "node1"
-  location: "cluster.hpc-carpentry.org"
+  name: "Myriad"
+  host: "myriad.ucl.ac.uk"
+  login: "myriad.rc.ucl.ac.uk"
+  host: "login12.myriad.ucl.ac.uk"
+  node: node-d00a-001
+  location: "University College London"
   homedir: "/home"
   user: "yourUsername"
-  module_python3: "Python"
-  prompt: "[yourUsername@login1 ~]$"
-  bash_shebang: "#!/bin/bash"
+  prompt: "[yourUsername@login12 ~]$ "
+  module_python3: "python3"
+  bash_shebang: "#!/bin/bash -l"
 
 sched:
-  name: "Slurm"
+  name: "SGE"
   submit:
-    name: "sbatch"
+    name: "qsub"
     options: ""
+    iopt: "" # TODO what does this mean?
   queue:
-    debug: "smnode"
-    testing: "cpubase_bycore_b1"
-  status: "squeue"
+    debug: "debug"
+    testing: "testing"
+  status: "qstat"
   flag:
     user: "-u yourUsername"
-    interactive: ""
-    histdetail: "-l -j"
-    name: "-J"
-    time: "-t"
-    queue: "-p"
-    nodes: "-N"
-    tasks: "-n"
-  del: "scancel"
-  interactive: "srun"
-  info: "sinfo"
-  comment: "#SBATCH"
-  hist: "sacct -u yourUsername"
-  hist_filter: ""
+    interactive: "-l mem=512M,h_rt=2:00:00"
+    histdetail: "-j"
+    name: "-N"
+    time: "-l h_rt="
+    queue: "-p" # TODO check for Myriad
+    nodes: "-N" # TODO check for Myriad
+    tasks: "-n" # TODO check for Myriad
+  del: "qdel"
+  interactive: "qrsh"
+  info: "nodetypes"
+  hosts: "qhost"
+  comment: "#$"
+  hist: "jobhist"
 
 episode_order:
   - 10-hpc-intro
