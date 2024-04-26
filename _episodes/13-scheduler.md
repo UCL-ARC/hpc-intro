@@ -218,7 +218,7 @@ later episode of this lesson.
 > >
 > > ```
 > > {{ site.remote.bash_shebang }}
-> > {{ site.sched.comment }} {{ site.sched.flag.time }} 00:01 # timeout in HH:MM
+> > {{ site.sched.comment }} {{ site.sched.flag.time }}00:01:00 # timeout in HH:MM
 > >
 > > echo -n "This script is running on "
 > > sleep 20 # time in seconds
