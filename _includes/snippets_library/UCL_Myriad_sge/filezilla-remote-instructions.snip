@@ -7,7 +7,7 @@ using your terminal.
 > {{ site.local.prompt }} ssh -L 3333:{{ site.remote.login }}:22 {{ site.remote.user }}@ssh-gateway.ucl.ac.uk -N
 > ```
 > {: .language-bash}
-> 
+>
 > This connects the local port 3333 to the cluster's SSH port, via the
 > remote gateway. The `-N` option tells it not to execute any remote
 > commands. Leave this running in the terminal and in FileZilla, set
