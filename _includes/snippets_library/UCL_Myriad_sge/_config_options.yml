@@ -8,7 +8,7 @@ remote:
   name: "Myriad"
   login: "myriad.rc.ucl.ac.uk"
   host: "login12.myriad.ucl.ac.uk"
-  node: node-d00a-001
+  node: node-d00a-005
   location: "University College London"
   homedir: "/home"
   user: "yourUsername"
@@ -28,7 +28,7 @@ sched:
     name: "-N"
     histdetail: "-j"
     time: "-l h_rt="
-    queue: "-q" # TODO check how queues work on Myriad
+    queue: "-q"
   del: "qdel"
   interactive: "qrsh"
   info: "nodetypes"
