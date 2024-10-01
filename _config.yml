@@ -6,24 +6,25 @@
 #------------------------------------------------------------
 
 # Cluster host and scheduler options: the defaults come from
-# Graham at Compute Canada, running Slurm. Other options can
-# be found in the library of snippets,
+# the HPC Carpentry tutorial cluster, running Slurm. Other
+# options can be found in the library of snippets,
 # `_includes/snippets_library`. To use one, replace options
 # below with those in `_config_options.yml` from the
 # library. E.g, to customise for Cirrus at EPCC, running
-# PBS, we could replace the options below with those from
+# Slurm, we could replace the options below with those from
 # 
-# _includes/snippets_library/EPCC_Cirrus_pbs/_config_options.yml
+# _includes/snippets_library/EPCC_Cirrus_slurm/_config_options.yml
 # 
 # If your cluster is not represented in the library, please
 # copy an existing folder, rename it, and customize for your
 # installation. Remember to keep the leading slash on the
 # `snippets` variable below!
+
 # UCL, University College London: Myriad + SGE
 snippets: "/snippets_library/UCL_Myriad_sge"
 
 local:
-  prompt: "[user@laptop ~]$"
+  prompt: "[you@laptop:~]$"
   bash_shebang: "#!/usr/bin/env bash"
 
 remote:
@@ -70,11 +71,12 @@ episode_order:
   - 11-connecting
   - 12-cluster
   - 13-scheduler
-  - 14-modules
-  - 15-transferring-files
-  - 16-parallel
-  - 17-resources
-  - 18-responsibility
+  - 14-environment-variables
+  - 15-modules
+  - 16-transferring-files
+  - 17-parallel
+  - 18-resources
+  - 19-responsibility
 
 #------------------------------------------------------------
 # Values for this lesson
@@ -84,7 +86,7 @@ episode_order:
 # "swc": Software Carpentry
 # "dc":  Data Carpentry
 # "lc":  Library Carpentry
-# "cp":  Carpentries (e.g., instructor traning)
+# "cp":  Carpentries (e.g., instructor training)
 carpentry: "incubator"
 
 # Overall title for pages.

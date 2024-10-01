@@ -130,7 +130,7 @@ status, we check the queue using the command
 > nothing was printed to the terminal.
 >
 > Cluster job output is typically redirected to a file in the directory you
-> launched it from. Use `ls` to find and read the file.
+> launched it from. Use `ls` to find and `cat` to read the file.
 {: .discussion}
 
 ## Customising a Job
@@ -181,7 +181,6 @@ Submit the job and monitor its status:
 
 Fantastic, we've successfully changed the name of our job!
 
-
 ### Resource Requests
 
 What about more important changes, such as the number of cores and memory for
@@ -219,7 +218,7 @@ later episode of this lesson.
 > >
 > > ```
 > > {{ site.remote.bash_shebang }}
-> > {{ site.sched.comment }} {{ site.sched.flag.time }} 00:01 # timeout in HH:MM
+> > {{ site.sched.comment }} {{ site.sched.flag.time }}00:01:00 # timeout in HH:MM
 > >
 > > echo -n "This script is running on "
 > > sleep 20 # time in seconds
@@ -235,8 +234,6 @@ later episode of this lesson.
 > > Why are the {{ site.sched.name }} runtime and `sleep` time not identical?
 > {: .solution}
 {: .challenge}
-
-{% include {{ site.snippets }}/scheduler/print-sched-variables.snip %}
 
 Resource requests are typically binding. If you exceed them, your job will be
 killed. Let's use wall time as an example. We will request 1 minute of
@@ -328,4 +325,4 @@ can run these types of tasks as a one-off with `{{ site.sched.interactive }}`.
 {% include links.md %}
 
 [fshs]: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
-[hisat]: https://ccb.jhu.edu/software/hisat2/index.shtml
+[hisat]: https://daehwankimlab.github.io/hisat2/

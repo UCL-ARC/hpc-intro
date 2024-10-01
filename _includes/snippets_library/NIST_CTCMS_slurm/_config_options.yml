@@ -8,9 +8,9 @@
 # `_includes/snippets_library`. To use one, replace options
 # below with those in `_config_options.yml` from the
 # library. E.g, to customise for Cirrus at EPCC, running
-# PBS, we could replace the options below with those from
+# Slurm, we could replace the options below with those from
 # 
-# _includes/snippets_library/EPCC_Cirrus_pbs/_config_options.yml
+# _includes/snippets_library/EPCC_Cirrus_slurm/_config_options.yml
 # 
 # If your cluster is not represented in the library, please
 # copy an existing folder, rename it, and customize for your
@@ -21,18 +21,18 @@ snippets: "/snippets_library/NIST_CTCMS_slurm"
 
 local:
   prompt: "[user@laptop ~]$"
-  bash_shebang: "#!/usr/bin/env bash"
+  bash_shebang: "#!/usr/bin/bash"
 
 remote:
-  name: "ruth"
-  login: "ruth.nist.gov"
-  host: "ruth"
+  name: "mr-french"
+  login: "mr-french.nist.gov"
+  host: "mr-french"
   node: "r001"
   location: "National Institute of Standards and Technology"
   homedir: "/users"
   user: "yourUsername"
-  prompt: "501 ruth%"
-  bash_shebang: "#!/usr/bin/env bash"
+  prompt: "501 mr-french%"
+  bash_shebang: "#!/bin/bash"
 
 sched:
   name: "Slurm"
@@ -46,22 +46,25 @@ sched:
   flag:
     user: "-u yourUsername"
     interactive: ""
-    histdetail: "--format=JobID,JobName,Submit,Start,State,ReqCPUS,Reserved,Elapsed,MaxRSS"
+    histdetail: "--format=JobName,Submit,Start,State,ReqCPUS,Reserved,Elapsed,MaxRSS -j"
     name: "-J"
     time: "-t"
     queue: "-p"
+    partition: "-p serial"
   del: "scancel"
   interactive: "srun"
   info: "sinfo"
   comment: "#SBATCH"
   hist: "sacct -u yourUsername"
+  hist_filter: ""
 
 episode_order:
   - 10-hpc-intro
   - 11-connecting
   - 12-cluster
   - 13-scheduler
-  - 15-transferring-files
-  - 16-parallel
-  - 17-resources
-  - 18-responsibility
+  - 14-environment-variables
+  - 16-transferring-files
+  - 17-parallel
+  - 18-resources
+  - 19-responsibility

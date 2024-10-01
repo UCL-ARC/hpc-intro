@@ -47,7 +47,7 @@ SSH clients are usually command-line tools, where you provide the remote
 machine address as the only required argument. If your username on the remote
 system differs from what you use locally, you must provide that as well. If
 your SSH client has a graphical front-end, such as PuTTY or MobaXterm, you will
-7set these arguments before clicking "connect." From the terminal, you'll write
+set these arguments before clicking "connect." From the terminal, you'll write
 something like `ssh userName@hostname`, where the argument is just like an
 email address: the "@" symbol is used to separate the personal ID from the
 address of the remote machine.
@@ -300,7 +300,9 @@ See the [PuTTY documentation][putty-agent].
 ### Transfer Your Public Key
 
 {% if site.remote.portal %}
-Visit {{ site.remote.portal }} to upload your SSH public key.
+Visit [{{ site.remote.portal }}]({{ site.remote.portal }}) to upload your SSH
+public key. (Remember, it's the one ending in `.pub`!)
+
 {% else %}
 Use the **s**ecure **c**o**p**y tool to send your public key to the cluster.
 
@@ -309,7 +311,7 @@ Use the **s**ecure **c**o**p**y tool to send your public key to the cluster.
 ```
 {: .language-bash}
 
-{% include {{ site.snippets }}/ssh-key-instructions.snip %}
+{% include {{ site.snippets }}/login/ssh-key-instructions.snip %}
 
 {% endif %}
 
@@ -319,7 +321,7 @@ Go ahead and open your terminal or graphical SSH client, then log in to the
 cluster. Replace `{{ site.remote.user }}` with your username or the one
 supplied by the instructors.
 
-{% include {{ site.snippets }}/login-instructions.snip %}
+{% include {{ site.snippets }}/login/login-instructions.snip %}
 
 ```
 {{ site.local.prompt }} ssh {{ site.remote.user }}@{{ site.remote.login }}
@@ -411,6 +413,8 @@ the other files, or files like them: `.bashrc` is a shell configuration file,
 which you can edit with your preferences; and `.ssh` is a directory storing SSH
 keys and a record of authorized connections.
 
+{% unless site.remote.portal %}
+
 ### Install Your SSH Key
 
 > ## There May Be a Better Way
@@ -454,6 +458,7 @@ password for your SSH key.
 {{ site.local.prompt }} ssh {{ site.remote.user }}@{{ site.remote.login }}
 ```
 {: .language-bash}
+{% endunless %}
 
 {% include links.md %}
 

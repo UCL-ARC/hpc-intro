@@ -17,7 +17,8 @@
 > >
 > > ```
 > > {{ site.remote.bash_shebang }}
-> > #SBATCH -t 00:00:30
+> > {{ site.sched.comment }} {{ site.sched.flag.partition }}
+> > {{ site.sched.comment }} {{ site.sched.flag.time }} 00:00:20
 > >
 > > echo -n "This script is running on "
 > > hostname
