@@ -29,10 +29,9 @@ local:
 
 remote:
   name: "Myriad"
-  host: "myriad.ucl.ac.uk"
   login: "myriad.rc.ucl.ac.uk"
   host: "login12.myriad.ucl.ac.uk"
-  node: node-d00a-001
+  node: node-d00a-005
   location: "University College London"
   homedir: "/home"
   user: "yourUsername"
