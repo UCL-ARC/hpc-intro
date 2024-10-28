@@ -218,7 +218,7 @@ later episode of this lesson.
 > >
 > > ```
 > > {{ site.remote.bash_shebang }}
-> > {{ site.sched.comment }} {{ site.sched.flag.time }}00:01:00 # timeout in HH:MM
+> > {{ site.sched.comment }} {{ site.sched.flag.time }}00:01:00 # timeout in HH:MM:SS
 > >
 > > echo -n "This script is running on "
 > > sleep 20 # time in seconds
@@ -247,7 +247,7 @@ wall time, and attempt to run a job for two minutes.
 ```
 {{ site.remote.bash_shebang }}
 {{ site.sched.comment }} {{ site.sched.flag.name }} long_job
-{{ site.sched.comment }} {{ site.sched.flag.time }} 00:01 # timeout in HH:MM
+{{ site.sched.comment }} {{ site.sched.flag.time }}00:01:00 # timeout in HH:MM:SS
 
 echo "This script is running on ... "
 sleep 240 # time in seconds
