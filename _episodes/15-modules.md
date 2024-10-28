@@ -197,7 +197,7 @@ Let's examine the output of `module avail` more closely.
 > > {{ site.remote.bash_shebang }}
 > > {{ site.sched.comment }} {{ site.sched.flag.partition }}{% if site.sched.flag.qos %}
 > > {{ site.sched.comment }} {{ site.sched.flag.qos }}
-> > {% endif %}{{ site.sched.comment }} {{ site.sched.flag.time }} 00:00:30
+> > {% endif %}{{ site.sched.comment }} {{ site.sched.flag.time }}00:00:30
 > > 
 > > module load {{ site.remote.module_python3 }}
 > >
