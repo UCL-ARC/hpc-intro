@@ -38,8 +38,14 @@ Move into the extracted directory, then use the Package Installer for Python,
 or `pip`, to install it in your ("user") home directory:
 
 ```
-{{ site.remote.prompt }} cd amdahl
+{{ site.remote.prompt }} wget -O amdahl.tar.gz https://github.com/hpc-carpentry/amdahl/tarball/main
+{{ site.remote.prompt }} tar -xvzf amdahl.tar.gz
+{{ site.remote.prompt }} cd hpc-carpentry-amdahl-46c9b4b
+{{ site.remote.prompt }} module load python3/recommended
+{{ site.remote.prompt }} module unload compilers mpi
+{{ site.remote.prompt }} module load mpi4py
 {{ site.remote.prompt }} python3 -m pip install --user .
+{{ site.remote.prompt }} which amdahl
 ```
 {: .language-bash}
 

@@ -113,7 +113,7 @@ get your job dispatched earlier.
 > > finish within 2 minutes:
 > >
 > > ```
-> > {{ site.sched.comment }} {{ site.sched.flag.time }}{% if site.sched.name == "Slurm" %} {% else %}={% endif %}00:02:00
+> > {{ site.sched.comment }} {{ site.sched.flag.time }}00:02:00
 > > ```
 > > {: .language-bash}
 > {: .solution}

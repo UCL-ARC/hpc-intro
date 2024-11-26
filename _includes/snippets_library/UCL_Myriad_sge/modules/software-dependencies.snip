@@ -1,67 +1,72 @@
-To demonstrate, let's load the `ansys` module and then use the `module list`
-command to show which modules we currently have loaded in our environment.
-([ANSYS](https://www.ansys.com/en-gb) is an engineering simulation product.)
+To demonstrate, let's use `module list`. `module list` shows all loaded
+software modules.
 
 ```
-{{ site.remote.prompt }} module load ansys
-```
-{: .language-bash}
-
-```
-ansys/2019.r3(73):ERROR:151: Module 'ansys/2019.r3' depends on one of the
-module(s) 'giflib/5.1.1'
-ansys/2019.r3(73):ERROR:102: Tcl command execution failed:
-prereq   giflib/5.1.1
-```
-{: .output}
-
-This shows that the default `ansys` module will not run because it first needs
-`giflib/5.1.1` to be loaded. Some HPC systems will automatically load
-dependencies like this, but at the time of writing (June 2020) UCL's Myriad
-does not.
-
-Let's load the `giflib` module:
-
-```
-{{ site.remote.prompt }} module load giflib
+{{ site.remote.prompt }} module list
 ```
 {: .language-bash}
 
 ```
-giflib/5.1.1(18):ERROR:151: Module 'giflib/5.1.1' depends on one of the
-module(s) 'gcc-libs/4.9.2'
-giflib/5.1.1(18):ERROR:102: Tcl command execution failed: prereq gcc-libs
+Currently Loaded Modulefiles:
+ 1) gcc-libs/4.9.2     10) nano/2.4.2         19) compilers/intel/2018/update3     
+ 2) cmake/3.21.1       11) nedit/5.6-aug15    20) mpi/intel/2018/update3/intel     
+ 3) flex/2.5.39        12) dos2unix/7.3       21) default-modules/2018             
+ 4) git/2.32.0         13) giflib/5.1.1       22) python/3.9.10                    
+ 5) apr/1.7.0          14) emacs/28.1         23) openblas/0.3.7-serial/gnu-4.9.2  
+ 6) apr-util/1.6.1     15) tmux/3.3a          24) python3/3.9                      
+ 7) subversion/1.14.1  16) mrxvt/0.5.4        25) python3/recommended              
+ 8) screen/4.9.0       17) userscripts/1.4.0  
+ 9) gerun              18) rcps-core/1.0.0
 ```
 {: .output}
 
-Here, we see that the `giflib` module itself also has a dependency, `gcc-libs`.
-So we have to load that first, then load `giflib`, and then finally load
-`ansys`.
-
 ```
-{{ site.remote.prompt }} module load gcc-libs/4.9.2
-{{ site.remote.prompt }} module load giflib/5.1.1
-{{ site.remote.prompt }} module load ansys
+{{ site.remote.prompt }} module load matlab
+{{ site.remote.prompt }} module list
 ```
 {: .language-bash}
 
 ```
-~/Scratch/.config is configured
-...
-...
-~/.mw doesn't exist - creating
+Currently Loaded Modulefiles:
+ 1) gcc-libs/4.9.2     10) nano/2.4.2         19) compilers/intel/2018/update3     
+ 2) cmake/3.21.1       11) nedit/5.6-aug15    20) mpi/intel/2018/update3/intel     
+ 3) flex/2.5.39        12) dos2unix/7.3       21) default-modules/2018             
+ 4) git/2.32.0         13) giflib/5.1.1       22) python/3.9.10                    
+ 5) apr/1.7.0          14) emacs/28.1         23) openblas/0.3.7-serial/gnu-4.9.2  
+ 6) apr-util/1.6.1     15) tmux/3.3a          24) python3/3.9                      
+ 7) subversion/1.14.1  16) mrxvt/0.5.4        25) python3/recommended              
+ 8) screen/4.9.0       17) userscripts/1.4.0  26) xorg-utils/X11R7.7               
+ 9) gerun              18) rcps-core/1.0.0    27) matlab/full/r2023a/9.14
 ```
 {: .output}
 
-If you now use the `module list` command, you should see these three modules
-included in the list.
+So in this case, loading the `matlab` module also loaded `xorg-utils/X11R7.7`, software
+for supporting a graphic user interface. Let's try unloading the `matlab` package.
 
-To unload a specific module, e.g. `ansys`, run the command
-`module unload ansys`. (On some systems, this will also unload the modules it
-depends on. Currently this is not the case with Myriad.)
+```
+{{ site.remote.prompt }} module unload matlab
+{{ site.remote.prompt }} module list
+```
+{: .language-bash}
 
-If we wanted to unload everything at once (all modules), we could run
-`module purge` (unloads everything).
+```
+Currently Loaded Modulefiles:
+ 1) gcc-libs/4.9.2     10) nano/2.4.2         19) compilers/intel/2018/update3     
+ 2) cmake/3.21.1       11) nedit/5.6-aug15    20) mpi/intel/2018/update3/intel     
+ 3) flex/2.5.39        12) dos2unix/7.3       21) default-modules/2018             
+ 4) git/2.32.0         13) giflib/5.1.1       22) python/3.9.10                    
+ 5) apr/1.7.0          14) emacs/28.1         23) openblas/0.3.7-serial/gnu-4.9.2  
+ 6) apr-util/1.6.1     15) tmux/3.3a          24) python3/3.9                      
+ 7) subversion/1.14.1  16) mrxvt/0.5.4        25) python3/recommended              
+ 8) screen/4.9.0       17) userscripts/1.4.0  
+ 9) gerun              18) rcps-core/1.0.0
+```
+{: .output}
+
+So using `module unload` "un-loads" a module, and depending on how a site is
+ configured it may also unload all of the dependencies (in our case it does
+ not). If we wanted to unload everything at once, we could run `module purge`
+ (unloads everything).
 
 ```
 {{ site.remote.prompt }} module purge
@@ -73,3 +78,7 @@ If we wanted to unload everything at once (all modules), we could run
 No Modulefiles Currently Loaded.
 ```
 {: .output}
+
+Note that `module purge` is informative. It will also let us know if a default
+set of "sticky" packages cannot be unloaded (and how to actually unload these
+if we truly so desired).
